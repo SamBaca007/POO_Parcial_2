@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\FactoryMethod">
+      <UniqueIdentifier>{667c6202-c46f-4844-8f82-dfe2b177c757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\ObserverPattern">
+      <UniqueIdentifier>{b7552d31-1615-41e8-85e1-54ac24c9ef93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\UserInterface">
+      <UniqueIdentifier>{8d1a8c29-192f-4d7e-a220-3ab1893d1465}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Prerequisites.h">
@@ -24,6 +33,24 @@
     <ClInclude Include="include\GestorInventario.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="include\ProductoDeFarmacia.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FactoryMethod\ProductoFactory.h">
+      <Filter>Archivos de encabezado\FactoryMethod</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObserverPattern\Observador.h">
+      <Filter>Archivos de encabezado\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObserverPattern\Sujeto.h">
+      <Filter>Archivos de encabezado\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObserverPattern\AlertaStockBajo.h">
+      <Filter>Archivos de encabezado\ObserverPattern</Filter>
+    </ClInclude>
+    <ClInclude Include="include\UserInterface\UserInterface.h">
+      <Filter>Archivos de encabezado\UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -33,6 +60,12 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="source\GestorInventario.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AlertaStockBajo.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="source\UserInterface.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

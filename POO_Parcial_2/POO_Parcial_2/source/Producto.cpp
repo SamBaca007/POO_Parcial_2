@@ -30,3 +30,11 @@ void
 Producto::actualizarCantidad(int nuevaCantidad) {
   cantidadStock = nuevaCantidad;
 }
+
+void Producto::establecerNombre(const std::string& nuevoNombre) {
+  nombreProducto = nuevoNombre;
+}
+
+void Producto::establecerPrecio(float nuevoPrecio) {
+  precioUnitario = nuevoPrecio;
+}

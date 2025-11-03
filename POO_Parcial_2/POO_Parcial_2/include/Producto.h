@@ -7,19 +7,28 @@ public:
   // Constructor
   Producto(const std::string& codigo, const std::string& nombre, float precio, int cantidad);
 
-  // Metodos para obtener información (Respetando Camel Case)
+  // Metodos para modificar (Ejemplo: al vender o re-surtir)
+  void actualizarCantidad(int nuevaCantidad);
+
+  // Convertimos a virtual para permitir el polimorfismo
+  virtual std::string obtenerTipo() const {
+    return "General";
+  }
+
+  // Metodos para obtener información
   std::string obtenerCodigo() const;
   std::string obtenerNombre() const;
   float obtenerPrecio() const;
   int obtenerCantidad() const;
 
-  // Metodos para modificar (Ejemplo: al vender o re-surtir)
-  void actualizarCantidad(int nuevaCantidad); // Camel Case
+  // Metodos para modificar Nombre y Precio
+  void establecerNombre(const std::string& nuevoNombre);
+  void establecerPrecio(float nuevoPrecio);
 
 private:
-  // Atributos privados (Respetando Camel Case, como se sugiere en el documento con m_id)
+  // Atributos privados
   std::string codigoProducto;
   std::string nombreProducto;
-  float precioUnitario; // La primera palabra en minuscula
+  float precioUnitario;
   int cantidadStock;
 };
