@@ -169,11 +169,14 @@
     <ClInclude Include="include\Prerequisites.h" />
     <ClInclude Include="include\Producto.h" />
     <ClInclude Include="include\ProductoDeFarmacia.h" />
+    <ClInclude Include="include\Register\GestorRegistro.h" />
+    <ClInclude Include="include\Register\Registro.h" />
     <ClInclude Include="include\UserInterface\UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AlertaStockBajo.cpp" />
     <ClCompile Include="source\GestorInventario.cpp" />
+    <ClCompile Include="source\GestorRegistro.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Producto.cpp" />
     <ClCompile Include="source\UserInterface.cpp" />

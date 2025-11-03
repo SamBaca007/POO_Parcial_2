@@ -22,6 +22,9 @@
     <Filter Include="Archivos de encabezado\UserInterface">
       <UniqueIdentifier>{8d1a8c29-192f-4d7e-a220-3ab1893d1465}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Register">
+      <UniqueIdentifier>{fbd334fe-1817-41a8-a5e3-365e976e6c7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Prerequisites.h">
@@ -51,6 +54,12 @@
     <ClInclude Include="include\UserInterface\UserInterface.h">
       <Filter>Archivos de encabezado\UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="include\Register\Registro.h">
+      <Filter>Archivos de encabezado\Register</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Register\GestorRegistro.h">
+      <Filter>Archivos de encabezado\Register</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -66,6 +75,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="source\UserInterface.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GestorRegistro.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
