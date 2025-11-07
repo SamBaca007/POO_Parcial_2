@@ -1,0 +1,122 @@
+[
+    {
+        "codigo": "1001",
+        "nombre": "Leche Entera 1L",
+        "precio": 25.50,
+        "cantidad": 50
+    },
+    {
+        "codigo": "1002",
+        "nombre": "Pan de Molde Blanco",
+        "precio": 45.00,
+        "cantidad": 35
+    },
+    {
+        "codigo": "1003",
+        "nombre": "Huevo (Docena)",
+        "precio": 42.00,
+        "cantidad": 25
+    },
+    {
+        "codigo": "2001",
+        "nombre": "Agua Embotellada 600ml",
+        "precio": 12.00,
+        "cantidad": 100
+    },
+    {
+        "codigo": "2002",
+        "nombre": "Refresco Cola 355ml",
+        "precio": 18.50,
+        "cantidad": 80
+    },
+    {
+        "codigo": "2003",
+        "nombre": "Papas Fritas Clasicas",
+        "precio": 32.00,
+        "cantidad": 60
+    },
+    {
+        "codigo": "3001",
+        "nombre": "Analgesico 10 Tabletas",
+        "precio": 55.75,
+        "cantidad": 30
+    },
+    {
+        "codigo": "3002",
+        "nombre": "Antiacido Masticable",
+        "precio": 38.90,
+        "cantidad": 40
+    },
+    {
+        "codigo": "3003",
+        "nombre": "Curitas Adhesivas (20)",
+        "precio": 22.00,
+        "cantidad": 55
+    },
+    {
+        "codigo": "3004",
+        "nombre": "Alcohol Isopropilico",
+        "precio": 48.00,
+        "cantidad": 20
+    },
+    {
+        "codigo": "4001",
+        "nombre": "Cepillo Dental",
+        "precio": 28.00,
+        "cantidad": 70
+    },
+    {
+        "codigo": "4002",
+        "nombre": "Pasta Dental 100ml",
+        "precio": 35.50,
+        "cantidad": 65
+    },
+    {
+        "codigo": "4003",
+        "nombre": "Jabon de Tocador",
+        "precio": 16.00,
+        "cantidad": 90
+    },
+    {
+        "codigo": "5001",
+        "nombre": "Baterias AA (4 pack)",
+        "precio": 65.00,
+        "cantidad": 45
+    },
+    {
+        "codigo": "5002",
+        "nombre": "Chicles Menta (pack)",
+        "precio": 15.00,
+        "cantidad": 120
+    },
+    {
+        "codigo": "5003",
+        "nombre": "Chocolate en Barra",
+        "precio": 20.00,
+        "cantidad": 95
+    },
+    {
+        "codigo": "6001",
+        "nombre": "Revista de Entretenimiento",
+        "precio": 50.00,
+        "cantidad": 15
+    },
+    {
+        "codigo": "6002",
+        "nombre": "Periodico del Dia",
+        "precio": 10.00,
+        "cantidad": 20
+    },
+    {
+        "codigo": "7001",
+        "nombre": "Gel Antibacterial 60ml",
+        "precio": 24.50,
+        "cantidad": 40
+    },
+    {
+        "codigo": "7002",
+        "nombre": "Mascarilla Desechable (5)",
+        "precio": 30.00,
+        "cantidad": 30
+    }
+]
