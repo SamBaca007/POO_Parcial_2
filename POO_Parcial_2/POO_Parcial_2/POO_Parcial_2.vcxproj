@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="include\FactoryMethod\ProductoFactory.h" />
     <ClInclude Include="include\GestorInventario.h" />
+    <ClInclude Include="include\IO\GeneradorTicket.h" />
     <ClInclude Include="include\ObserverPattern\AlertaStockBajo.h" />
     <ClInclude Include="include\ObserverPattern\Observador.h" />
     <ClInclude Include="include\ObserverPattern\Sujeto.h" />
@@ -171,10 +172,15 @@
     <ClInclude Include="include\ProductoDeFarmacia.h" />
     <ClInclude Include="include\Register\GestorRegistro.h" />
     <ClInclude Include="include\Register\Registro.h" />
+    <ClInclude Include="include\Strategy\EstrategiaPago.h" />
+    <ClInclude Include="include\Strategy\PagoCredito.h" />
+    <ClInclude Include="include\Strategy\PagoDebito.h" />
+    <ClInclude Include="include\Strategy\PagoEfectivo.h" />
     <ClInclude Include="include\UserInterface\UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\AlertaStockBajo.cpp" />
+    <ClCompile Include="source\GeneradorTicket.cpp" />
     <ClCompile Include="source\GestorInventario.cpp" />
     <ClCompile Include="source\GestorRegistro.cpp" />
     <ClCompile Include="source\main.cpp" />

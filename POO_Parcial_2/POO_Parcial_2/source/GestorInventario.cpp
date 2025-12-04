@@ -1,5 +1,7 @@
 #include "GestorInventario.h"
 #include "FactoryMethod/ProductoFactory.h"
+#include "IO/GeneradorTicket.h"
+#include "Strategy/EstrategiaPago.h"
 #include <algorithm> // Necesario para std::find_if y std::remove_if.
 #include <ctime>     // Necesario para obtener la fecha (aunque simulada).
 #include <iostream>  // Necesario para la salida de consola (errores/éxitos).
@@ -177,8 +179,9 @@ GestorInventario::realizarCompra(const std::string&
 }
 
 void
-GestorInventario::realizarVenta(const std::string&
-  codigoProducto, int cantidadVendida) {
+GestorInventario::realizarVenta(const std::string& codigoProducto, int cantidadVendida,
+std::shared_ptr<EstrategiaPago> estrategiaPago) {
+
   // 1. Buscar el producto
   auto it = std::find_if(listaProductos.begin(), listaProductos.end(),
     [&codigoProducto](const std::shared_ptr<Producto>& p) {
@@ -194,33 +197,48 @@ GestorInventario::realizarVenta(const std::string&
   std::shared_ptr<Producto> productoAVender = *it;
   int stockActual = productoAVender->obtenerCantidad();
 
-  // 2. Verificar y actualizar stock
+  // 2. Verificar Stock
   if (stockActual < cantidadVendida) {
     std::cout << "Venta Fallida: Stock insuficiente de "
-      << productoAVender->obtenerNombre()
-      << ". Stock actual: " << stockActual << ".\n";
+    << productoAVender->obtenerNombre() << ". Stock actual: " << stockActual << ".\n";
     return;
   }
 
+  // 3. Cálculo y Pago (Strategy Pattern)
+  float precioUnitario = productoAVender->obtenerPrecio();
+  float montoTotal = precioUnitario * cantidadVendida;
+
+  // Uso del patrón Strategy: Llama al método pagar de la estrategia inyectada.
+  std::string resultadoPago = estrategiaPago->pagar(montoTotal);
+
+  std::cout << "\n[PAGO] Transaccion de $" << montoTotal << " procesada: "
+  << resultadoPago << ".\n";
+
+  // 4. Actualizar stock
   int nuevoStock = stockActual - cantidadVendida;
   productoAVender->actualizarCantidad(nuevoStock);
 
-  // --- 3. Registro de Venta ---
+  // --- 5. Registro de Venta ---
   std::string fechaActual = "2025-10-31"; // Fecha simulada
+  gestorRegistro->registrarVenta(codigoProducto, cantidadVendida, precioUnitario,
+  fechaActual);
 
-  gestorRegistro->registrarVenta(
+  // --- 6. Generación de Ticket y Factura (IO) ---
+  GeneradorTicket generador; // Objeto utilitario
+  generador.generarTicketVentaYSimularEnvio(
     codigoProducto,
+    productoAVender->obtenerNombre(),
     cantidadVendida,
-    productoAVender->obtenerPrecio(), // Usa el precio actual del producto.
-    fechaActual
+    precioUnitario,
+    montoTotal,
+    resultadoPago // Pasamos la descripción del método de pago
   );
 
-  std::cout << "\nVenta Exitosa: " << cantidadVendida << " unidades de "
+  std::cout << "Venta Exitosa: " << cantidadVendida << " unidades de "
     << productoAVender->obtenerNombre() << " vendidas. Stock restante: "
     << nuevoStock << ".\n";
 
-  // 4. Notificar a los observadores (DISPARO DEL PATRON OBSERVER)
-  // Esto llama a AlertaStockBajo::actualizar() para verificar el nuevo stock.
+  // 7. Notificar a los observadores (Observer Pattern)
   notificar(*productoAVender);
 }
 

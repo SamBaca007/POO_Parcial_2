@@ -25,6 +25,12 @@
     <Filter Include="Archivos de encabezado\Register">
       <UniqueIdentifier>{fbd334fe-1817-41a8-a5e3-365e976e6c7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\IO">
+      <UniqueIdentifier>{af5bc53f-213a-4c25-aab1-a1b1cba1b95e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Strategy">
+      <UniqueIdentifier>{ff7e9508-1d08-4a9b-b87e-467accc80704}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Prerequisites.h">
@@ -60,6 +66,21 @@
     <ClInclude Include="include\Register\GestorRegistro.h">
       <Filter>Archivos de encabezado\Register</Filter>
     </ClInclude>
+    <ClInclude Include="include\IO\GeneradorTicket.h">
+      <Filter>Archivos de encabezado\IO</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Strategy\EstrategiaPago.h">
+      <Filter>Archivos de encabezado\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Strategy\PagoCredito.h">
+      <Filter>Archivos de encabezado\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Strategy\PagoDebito.h">
+      <Filter>Archivos de encabezado\Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Strategy\PagoEfectivo.h">
+      <Filter>Archivos de encabezado\Strategy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -78,6 +99,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="source\GestorRegistro.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GeneradorTicket.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

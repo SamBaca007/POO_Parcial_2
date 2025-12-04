@@ -224,16 +224,56 @@ UserInterface::eliminarProducto() {
 
 void
 UserInterface::realizarVenta() {
-  // @brief Recoge los datos de la venta y llama a la lógica transaccional.
   system("cls");
   std::string codigo;
   int cantidad;
+  int opcionPago;
 
   std::cout << "--- REALIZAR VENTA ---\n";
   std::cout << "Codigo del Producto: "; std::cin >> codigo;
   std::cout << "Cantidad a Vender: "; std::cin >> cantidad;
 
-  gestorInventario->realizarVenta(codigo, cantidad); // Llama a la función que dispara el Observer.
+  std::cout << "\n--- METODO DE PAGO ---\n";
+  std::cout << "1. Efectivo\n";
+  std::cout << "2. Tarjeta de Credito\n";
+  std::cout << "3. Tarjeta de Debito\n";
+  std::cout << "Seleccione una opcion: ";
+
+  if (!(std::cin >> opcionPago)) {
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cout << "Error: Entrada invalida.\n";
+    system("pause");
+    return;
+  }
+
+  // Puntero que será nuestra Estrategia
+  std::shared_ptr<EstrategiaPago> estrategiaSeleccionada = nullptr;
+
+  switch (opcionPago) {
+  case 1:
+    // Patrón Strategy: Se crea la estrategia concreta de Efectivo.
+    estrategiaSeleccionada = std::make_shared<PagoEfectivo>();
+    break;
+  case 2:
+    // Patrón Strategy: Se crea la estrategia concreta de Crédito.
+    estrategiaSeleccionada = std::make_shared<PagoCredito>();
+    break;
+  case 3:
+    // Patrón Strategy: Se crea la estrategia concreta de Débito.
+    estrategiaSeleccionada = std::make_shared<PagoDebito>();
+    break;
+  default:
+    std::cout << "Opcion de pago invalida.\n";
+    system("pause");
+    return;
+  }
+
+  // Llama al gestor inyectando la Estrategia (Strategy Pattern en acción)
+  if (estrategiaSeleccionada) {
+    gestorInventario->realizarVenta(codigo, cantidad, estrategiaSeleccionada);
+  }
+
   system("pause");
 }
 

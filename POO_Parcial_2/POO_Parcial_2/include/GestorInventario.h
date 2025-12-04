@@ -3,6 +3,9 @@
 #include "Prerequisites.h"              // Inclusiones de librerías esenciales.
 #include "ObserverPattern/Sujeto.h"     // Interfaz base para el patrón Observer.
 #include "Register/GestorRegistro.h"    // Clase para el registro de transacciones.
+#include "Strategy/EstrategiaPago.h"
+#include <memory>
+#include "IO/GeneradorTicket.h"
 
 /**
  * @brief Clase central del sistema, responsable de la gestión de inventario (CRUD),
@@ -50,14 +53,18 @@ public:
   void
   realizarCompra(const std::string& codigoProducto, int cantidadComprada);
 
+  // Funcionalidad de venta (que activara la notificacion)
+
   /**
-   * @brief Procesa la venta de un producto.
-   * Decrementa el stock del producto, notifica a los Observadores y registra la transacción.
+   * @brief Procesa la venta de un producto, gestiona el pago y genera el ticket.
+   * La lógica de pago es inyectada mediante el Patrón Strategy.
    * @param codigoProducto Código del producto a vender.
    * @param cantidadVendida Cantidad de unidades a vender.
+   * @param estrategiaPago El puntero inteligente a la EstrategiaPago a utilizar (ej. Efectivo, Crédito).
    */
   void
-  realizarVenta(const std::string& codigoProducto, int cantidadVendida);
+  realizarVenta(const std::string& codigoProducto, int cantidadVendida,
+    std::shared_ptr<EstrategiaPago> estrategiaPago);
 
   // ---------------------------------------------------------------------
   // Métodos CRUD
@@ -72,12 +79,8 @@ public:
    * @param cantidad Stock inicial.
    */
   void
-  agregarProducto(
-      const std::string& codigo,
-      const std::string& nombre,
-      float precio,
-      int cantidad
-    );
+  agregarProducto(const std::string& codigo, const std::string& nombre,
+      float precio, int cantidad);
 
   /**
    * @brief Modifica los atributos (nombre, precio, stock) de un producto existente.
@@ -88,12 +91,8 @@ public:
    * @return True si el producto fue encontrado y editado, false si no se encontró.
    */
   bool
-  editarProducto(
-      const std::string& codigo,
-      const std::string& nuevoNombre,
-      float nuevoPrecio,
-      int nuevaCantidad
-    );
+  editarProducto(const std::string& codigo, const std::string& nuevoNombre,
+  float nuevoPrecio, int nuevaCantidad);
 
   /**
    * @brief Elimina un producto del inventario basándose en su código.

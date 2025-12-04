@@ -2,6 +2,10 @@
 #include "Prerequisites.h"
 #include "GestorInventario.h"
 #include "Register/GestorRegistro.h"
+#include "../Strategy/EstrategiaPago.h" // Interfaz base
+#include "../Strategy/PagoEfectivo.h"   // Estrategias concretas
+#include "../Strategy/PagoCredito.h"
+#include "../Strategy/PagoDebito.h"
 /**
  * @brief Clase responsable de gestionar la Interfaz de Usuario por Consola (CLI).
  * Encapsula la interacción con el usuario, los menús, y la invocación de las
