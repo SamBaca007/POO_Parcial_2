@@ -1,15 +1,21 @@
 #pragma once
 #include "Prerequisites.h"
 #include "GestorInventario.h"
+#include "Gasolinera/GestorGasolinera.h"
 #include "Register/GestorRegistro.h"
-#include "../Strategy/EstrategiaPago.h" // Interfaz base
-#include "../Strategy/PagoEfectivo.h"   // Estrategias concretas
-#include "../Strategy/PagoCredito.h"
-#include "../Strategy/PagoDebito.h"
+#include "Strategy/EstrategiaPago.h" // Interfaz base
+#include "Strategy/PagoEfectivo.h"   // Estrategias concretas
+#include "Strategy/PagoCredito.h"
+#include "Strategy/PagoDebito.h"
+
+// ---------------------------------------------------------------------
+// CLASE UserInterface
+// ---------------------------------------------------------------------
+
 /**
  * @brief Clase responsable de gestionar la Interfaz de Usuario por Consola (CLI).
  * Encapsula la interacción con el usuario, los menús, y la invocación de las
- * funciones de GestorInventario y GestorRegistro.
+ * funciones de GestorInventario, GestorRegistro y GestorGasolinera.
  */
 class
 UserInterface {
@@ -32,77 +38,38 @@ private:
   // ---------------------------------------------------------------------
   // Miembros Privados (Referencias al Sistema)
   // ---------------------------------------------------------------------
-  // Punteros inteligentes para acceder a la lógica del sistema.
   std::shared_ptr<GestorInventario> gestorInventario;
+  std::shared_ptr<GestorGasolinera> gestorGasolinera; // Objeto de Gasolinera
   std::shared_ptr<GestorRegistro> gestorRegistro;
 
   // ---------------------------------------------------------------------
   // Metodos de Navegación del Menu
   // ---------------------------------------------------------------------
 
-  /**
-   * @brief Muestra las opciones principales del sistema.
-   */
-  void
-  mostrarMenuPrincipal();
+  // Declaración de los métodos que manejan el flujo
+  void mostrarMenuPrincipal(); // Muestra el texto del menú
+  void manejarOpcion(int opcion); // Contiene el switch de las opciones
 
-  /**
-   * @brief Procesa la opción seleccionada por el usuario en el menú principal.
-   * @param opcion El número de la opción elegida.
-   */
-  void
-  manejarOpcion(int opcion);
-
-  /**
-   * @brief Muestra el sub-menú para las operaciones CRUD del inventario.
-   */
-  void
-  menuGestionInventario();
-
-  /**
-   * @brief Procesa la opción seleccionada en el menú de gestión de inventario.
-   * @param opcion El número de la opción elegida (1: Agregar, 2: Editar, 3: Eliminar).
-   */
-  void
-  manejarGestionInventario(int opcion);
-
-  /**
-   * @brief Muestra el sub-menú para ver los historiales de ventas y compras.
-   */
-  void
-  mostrarHistoriales();
+  void mostrarHistoriales();
 
   // ---------------------------------------------------------------------
   // Métodos de Acción (CRUD y Transacciones)
   // ---------------------------------------------------------------------
 
-  /**
-   * @brief Recibe la entrada del usuario y llama a GestorInventario::agregarProducto.
-   */
-  void
-  agregarProducto();
+  void agregarProducto();
+  void editarProducto();
+  void eliminarProducto();
 
   /**
-   * @brief Recibe la entrada del usuario y llama a GestorInventario::editarProducto.
+   * @brief Recibe el código y cantidad y llama a GestorInventario::realizarVenta
+   * (Incluye la selección de la Estrategia de Pago).
    */
-  void
-  editarProducto();
+  void realizarVenta();
+
+  void realizarCompra();
 
   /**
-   * @brief Recibe el código del producto y llama a GestorInventario::eliminarProducto.
+   * @brief Muestra el menú y gestiona la lógica del módulo de gasolinera.
    */
-  void
-  eliminarProducto();
-
-  /**
-   * @brief Recibe el código y cantidad y llama a GestorInventario::realizarVenta.
-   */
-  void
-  realizarVenta();
-
-  /**
-   * @brief Recibe el código y cantidad y llama a GestorInventario::realizarCompra (re-surtir).
-   */
-  void
-  realizarCompra();
+  void moduloGasolinera();
 };

@@ -1,0 +1,12 @@
+========================================
+          TICKET DE VENTA OFICIAL       
+========================================
+Fecha y Hora: Wed Dec  3 18:17:58 2025
+Metodo de Pago: Pago con Tarjeta de Credito (Procesado)
+----------------------------------------
+Producto: Leche Entera 1L (Cod: 1001)
+Cantidad: 15
+Precio Unitario: $25.50
+----------------------------------------
+TOTAL: $382.50
+========================================

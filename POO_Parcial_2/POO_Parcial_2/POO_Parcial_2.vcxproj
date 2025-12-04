@@ -162,6 +162,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\FactoryMethod\ProductoFactory.h" />
+    <ClInclude Include="include\Gasolinera\Combustible.h" />
+    <ClInclude Include="include\Gasolinera\GestorGasolinera.h" />
     <ClInclude Include="include\GestorInventario.h" />
     <ClInclude Include="include\IO\GeneradorTicket.h" />
     <ClInclude Include="include\ObserverPattern\AlertaStockBajo.h" />
@@ -181,6 +183,7 @@
   <ItemGroup>
     <ClCompile Include="source\AlertaStockBajo.cpp" />
     <ClCompile Include="source\GeneradorTicket.cpp" />
+    <ClCompile Include="source\GestorGasolinera.cpp" />
     <ClCompile Include="source\GestorInventario.cpp" />
     <ClCompile Include="source\GestorRegistro.cpp" />
     <ClCompile Include="source\main.cpp" />

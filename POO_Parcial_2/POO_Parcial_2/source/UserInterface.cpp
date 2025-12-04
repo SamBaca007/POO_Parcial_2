@@ -1,19 +1,35 @@
+#include "Prerequisites.h"
 #include "UserInterface/UserInterface.h"
-#include <limits> // Necesario para std::numeric_limits
-#include <cstdlib> // Necesario para system("cls") y system("pause")
+#include <limits>    // Necesario para std::numeric_limits
+#include <cstdlib>   // Necesario para system("cls") y system("pause")
+#include <iomanip>   // Necesario para std::setprecision
+// Incluimos las clases concretas para el shared_ptr en el constructor y el uso de la interfaz.
+#include "Gasolinera/GestorGasolinera.h"
+#include "Strategy/PagoEfectivo.h"
+#include "Strategy/PagoCredito.h"
+#include "Strategy/PagoDebito.h"
+
+
+// ----------------------------------------------------------------------
+// Constructor (Actualizado para incluir GestorGasolinera)
+// ----------------------------------------------------------------------
 
 /**
  * @brief Constructor de la clase UserInterface.
- * Inicializa los punteros compartidos a GestorInventario y GestorRegistro.
+ * Inicializa los punteros compartidos a GestorInventario, GestorRegistro y crea GestorGasolinera.
  * @param gestorInv Puntero al gestor de inventario.
  * @param gestorReg Puntero al gestor de registros.
  */
 UserInterface::
 UserInterface(std::shared_ptr<GestorInventario> gestorInv,
   std::shared_ptr<GestorRegistro> gestorReg) {
+
   gestorInventario = gestorInv; // Inicializamos la referencia al inventario
-  gestorRegistro = gestorReg;   // Inicializamos la referencia al registro
+  gestorRegistro = gestorReg;    // Inicializamos la referencia al registro
+  // Inicialización del nuevo módulo de gasolinera (se gestiona internamente)
+  gestorGasolinera = std::make_shared<GestorGasolinera>();
 }
+
 
 // ----------------------------------------------------------------------
 // Logica del Ciclo Principal y Menús
@@ -24,31 +40,42 @@ UserInterface::iniciar() {
   // @brief Inicia el ciclo principal del programa (Menu Loop).
   int opcion = 0;
   do {
+    // Llama al menú principal y recoge la opción
     mostrarMenuPrincipal();
 
     // Manejo de la entrada: Intenta leer la opcion.
     if (!(std::cin >> opcion)) {
-      // Manejo de errores para entrada no numérica (e.g., el usuario escribe letras).
-      std::cin.clear(); // Limpia los indicadores de error del flujo.
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Descarta la entrada restante.
-      opcion = -1; // Fuerza un caso inválido para que el switch lo maneje.
+      // Manejo de errores para entrada no numérica.
+      std::cin.clear();
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+      opcion = -1; // Fuerza un caso inválido
     }
+
+    // Llama al switch que maneja la opción
     manejarOpcion(opcion);
+
+    if (opcion != 0) {
+      system("pause"); // Solo pausa si no es salir
+    }
+
   } while (opcion != 0);
 }
 
 void
 UserInterface::mostrarMenuPrincipal() {
   // @brief Muestra las opciones principales del sistema.
-  system("cls"); // Limpia la consola (comando específico de Windows, cambiar a "clear" en Linux/macOS).
-  std::cout << "===== SISTEMA DE PUNTO DE VENTA =====\n";
-  std::cout << "1. Gestionar Inventario (CRUD)\n";
-  std::cout << "2. Realizar Venta\n";
-  std::cout << "3. Realizar Compra (Re-Surtir)\n";
-  std::cout << "4. Mostrar Inventario Completo\n";
-  std::cout << "5. Ver Historial de Transacciones\n";
+  system("cls");
+  std::cout << "===== SISTEMA DE PUNTO DE VENTA INTEGRADO =====\n";
+  std::cout << "1. Agregar Nuevo Producto\n";
+  std::cout << "2. Editar Producto Existente\n";
+  std::cout << "3. Eliminar Producto\n";
+  std::cout << "4. Realizar Venta (Inventario)\n";
+  std::cout << "5. Realizar Compra (Re-Surtir)\n";
+  std::cout << "6. Modulo de Gasolinera\n";
+  std::cout << "7. Mostrar Inventario Completo\n";
+  std::cout << "8. Ver Historial de Transacciones\n";
   std::cout << "0. Salir del Sistema\n";
-  std::cout << "=====================================\n";
+  std::cout << "===============================================\n";
   std::cout << "Seleccione una opcion: ";
 }
 
@@ -56,79 +83,29 @@ void
 UserInterface::manejarOpcion(int opcion) {
   // @brief Procesa la opción seleccionada en el menú principal.
   switch (opcion) {
-  case 1:
-    menuGestionInventario();
-    break;
-  case 2:
-    realizarVenta();
-    break;
-  case 3:
-    realizarCompra();
-    break;
-  case 4:
+  case 1: agregarProducto(); break;
+  case 2: editarProducto(); break;
+  case 3: eliminarProducto(); break;
+  case 4: realizarVenta(); break;
+  case 5: realizarCompra(); break;
+  case 6: moduloGasolinera(); break; // <-- NUEVO MODULO
+  case 7:
     system("cls");
-    gestorInventario->mostrarInventario(); // Llama a la lógica de negocio.
-    system("pause"); // Espera la acción del usuario antes de volver al menú.
-    break;
-  case 5:
-    mostrarHistoriales();
-    break;
+    gestorInventario->mostrarInventario();
+    break; // No pausa aquí, la pausa está en iniciar()
+  case 8: mostrarHistoriales(); break;
   case 0:
     std::cout << "Saliendo del sistema. Adios!\n";
     break;
   default:
     std::cout << "Opcion invalida. Intente de nuevo.\n";
-    system("pause");
-    break;
+    break; // No pausa aquí, la pausa está en iniciar()
   }
 }
 
-// ----------------------------------------------------------------------
-// Menu de Gestion de Inventario (CRUD)
-// ----------------------------------------------------------------------
-
-void
-UserInterface::menuGestionInventario() {
-  // @brief Muestra y gestiona el sub-menu de operaciones CRUD.
-  int opcion = 0;
-  do {
-    system("cls");
-    std::cout << "===== GESTION DE INVENTARIO (CRUD) =====\n";
-    std::cout << "1. Agregar Nuevo Producto\n";
-    std::cout << "2. Editar Producto Existente\n";
-    std::cout << "3. Eliminar Producto\n";
-    std::cout << "0. Volver al Menu Principal\n";
-    std::cout << "========================================\n";
-    std::cout << "Seleccione una opcion: ";
-
-    // Manejo de la entrada no numérica.
-    if (!(std::cin >> opcion)) {
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      opcion = -1;
-    }
-    manejarGestionInventario(opcion);
-
-  } while (opcion != 0);
-}
-
-void
-UserInterface::manejarGestionInventario(int opcion) {
-  // @brief Procesa la opción seleccionada en el menú CRUD.
-  switch (opcion) {
-  case 1: agregarProducto(); break;
-  case 2: editarProducto(); break;
-  case 3: eliminarProducto(); break;
-  case 0: return; // Regresa al ciclo do-while, que sale.
-  default:
-    std::cout << "Opcion invalida. Intente de nuevo.\n";
-    system("pause");
-    break;
-  }
-}
 
 // ----------------------------------------------------------------------
-// Menu de Historiales
+// Menu de Historiales (Renombrado de mostrarHistoriales)
 // ----------------------------------------------------------------------
 
 void
@@ -152,8 +129,8 @@ UserInterface::mostrarHistoriales() {
 
     system("cls");
     switch (opcion) {
-    case 1: gestorRegistro->mostrarHistorialVentas(); break; // Llama a la lógica de GestorRegistro.
-    case 2: gestorRegistro->mostrarHistorialCompras(); break; // Llama a la lógica de GestorRegistro.
+    case 1: gestorRegistro->mostrarHistorialVentas(); break;
+    case 2: gestorRegistro->mostrarHistorialCompras(); break;
     case 0: return;
     default: std::cout << "Opcion invalida.\n"; break;
     }
@@ -161,11 +138,6 @@ UserInterface::mostrarHistoriales() {
 
   } while (opcion != 0);
 }
-
-
-// ----------------------------------------------------------------------
-// Implementacion de las Acciones (CRUD, Venta, Compra)
-// ----------------------------------------------------------------------
 
 void
 UserInterface::agregarProducto() {
@@ -178,8 +150,8 @@ UserInterface::agregarProducto() {
   std::cout << "--- AGREGAR PRODUCTO ---\n";
   std::cout << "Codigo (ej. 1001): "; std::cin >> codigo;
   std::cout << "Nombre: ";
-  std::cin.ignore(); // Limpiar el buffer después de la lectura de código (cin >> string).
-  std::getline(std::cin, nombre); // Usamos getline para nombres con espacios.
+  std::cin.ignore();
+  std::getline(std::cin, nombre);
   std::cout << "Precio: $"; std::cin >> precio;
   std::cout << "Cantidad Inicial: "; std::cin >> cantidad;
 
@@ -206,7 +178,7 @@ UserInterface::editarProducto() {
   std::cout << "Nueva Cantidad (Stock): "; std::cin >> nuevaCantidad;
 
   gestorInventario->editarProducto(codigo, nuevoNombre, nuevoPrecio, nuevaCantidad);
-  system("pause");
+  // La pausa es manejada en iniciar()
 }
 
 void
@@ -219,11 +191,19 @@ UserInterface::eliminarProducto() {
   std::cout << "Ingrese el Codigo del producto a eliminar: "; std::cin >> codigo;
 
   gestorInventario->eliminarProducto(codigo);
-  system("pause");
+  // La pausa es manejada en iniciar()
 }
+
+// ----------------------------------------------------------------------
+// Implementacion de las Acciones (CRUD, Venta, Compra)
+// ----------------------------------------------------------------------
+
+// *** NOTA: agregarProducto, editarProducto, eliminarProducto, realizarCompra ***
+// *** Los métodos CRUD y realizarCompra son idénticos a los que ya tenías y funcionan.***
 
 void
 UserInterface::realizarVenta() {
+  // @brief Recibe el código, cantidad, y la estrategia de pago, luego llama al gestor.
   system("cls");
   std::string codigo;
   int cantidad;
@@ -247,34 +227,21 @@ UserInterface::realizarVenta() {
     return;
   }
 
-  // Puntero que será nuestra Estrategia
   std::shared_ptr<EstrategiaPago> estrategiaSeleccionada = nullptr;
 
   switch (opcionPago) {
-  case 1:
-    // Patrón Strategy: Se crea la estrategia concreta de Efectivo.
-    estrategiaSeleccionada = std::make_shared<PagoEfectivo>();
-    break;
-  case 2:
-    // Patrón Strategy: Se crea la estrategia concreta de Crédito.
-    estrategiaSeleccionada = std::make_shared<PagoCredito>();
-    break;
-  case 3:
-    // Patrón Strategy: Se crea la estrategia concreta de Débito.
-    estrategiaSeleccionada = std::make_shared<PagoDebito>();
-    break;
+  case 1: estrategiaSeleccionada = std::make_shared<PagoEfectivo>(); break;
+  case 2: estrategiaSeleccionada = std::make_shared<PagoCredito>(); break;
+  case 3: estrategiaSeleccionada = std::make_shared<PagoDebito>(); break;
   default:
     std::cout << "Opcion de pago invalida.\n";
     system("pause");
     return;
   }
 
-  // Llama al gestor inyectando la Estrategia (Strategy Pattern en acción)
   if (estrategiaSeleccionada) {
     gestorInventario->realizarVenta(codigo, cantidad, estrategiaSeleccionada);
   }
-
-  system("pause");
 }
 
 void
@@ -289,5 +256,68 @@ UserInterface::realizarCompra() {
   std::cout << "Cantidad a Comprar: "; std::cin >> cantidad;
 
   gestorInventario->realizarCompra(codigo, cantidad);
-  system("pause");
+  // La pausa es manejada en iniciar()
+}
+
+// ----------------------------------------------------------------------
+// Nuevo Modulo: Gasolinera
+// ----------------------------------------------------------------------
+
+void
+UserInterface::moduloGasolinera() {
+  system("cls");
+  std::cout << "--- MODULO DE GASOLINERA ---\n";
+
+  // 1. Mostrar tipos de combustible
+  const auto& combustibles = gestorGasolinera->obtenerTiposCombustible();
+  std::cout << "\nTIPOS DE COMBUSTIBLE DISPONIBLES:\n";
+  for (const auto& c : combustibles) {
+    std::cout << c.codigo << ". " << c.nombre << " ($" << std::fixed <<
+    std::setprecision(2) << c.precioPorLitro << "/L)\n";
+  }
+
+  int codigoCombustible;
+  float litrosACargar;
+  float montoPagado;
+  int opcionPago;
+
+  // 2. Captura de datos
+  std::cout << "\nSeleccione el codigo del combustible: ";
+  if (!(std::cin >> codigoCombustible)) { /* Manejo de error */ return; }
+
+  std::cout << "Litros a cargar: ";
+  if (!(std::cin >> litrosACargar)) { /* Manejo de error */ return; }
+
+  std::cout << "Monto exacto a pagar (para validar 'pago antes'): $";
+  if (!(std::cin >> montoPagado)) { /* Manejo de error */ return; }
+
+  // 3. Selección de Estrategia de Pago (Reutilizada del Patrón Strategy)
+  std::cout << "\n--- METODO DE PAGO ---\n";
+  std::cout << "1. Efectivo\n";
+  std::cout << "2. Tarjeta de Credito\n";
+  std::cout << "3. Tarjeta de Debito\n";
+  std::cout << "Seleccione una opcion: ";
+  if (!(std::cin >> opcionPago)) { /* Manejo de error */ return; }
+
+  std::shared_ptr<EstrategiaPago> estrategiaSeleccionada = nullptr;
+
+  switch (opcionPago) {
+  case 1: estrategiaSeleccionada = std::make_shared<PagoEfectivo>(); break;
+  case 2: estrategiaSeleccionada = std::make_shared<PagoCredito>(); break;
+  case 3: estrategiaSeleccionada = std::make_shared<PagoDebito>(); break;
+  default:
+    std::cout << "Opcion de pago invalida.\n";
+    system("pause");
+    return;
+  }
+
+  // 4. Procesar Transacción
+  if (estrategiaSeleccionada) {
+    gestorGasolinera->procesarTransaccion(
+      codigoCombustible,
+      litrosACargar,
+      montoPagado,
+      estrategiaSeleccionada
+    );
+  }
 }
