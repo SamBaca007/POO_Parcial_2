@@ -1,0 +1,12 @@
+========================================
+          TICKET DE VENTA OFICIAL       
+========================================
+Fecha y Hora: Fri Dec  5 10:14:28 2025
+Metodo de Pago: Pago con Tarjeta de Credito (Procesado)
+----------------------------------------
+Producto: Pan de Molde Blanco (Cod: 1002)
+Cantidad: 10
+Precio Unitario: $45.00
+----------------------------------------
+TOTAL: $450.00
+========================================

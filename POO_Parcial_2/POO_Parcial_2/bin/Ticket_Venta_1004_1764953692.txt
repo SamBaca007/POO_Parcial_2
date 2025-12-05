@@ -1,0 +1,12 @@
+========================================
+          TICKET DE VENTA OFICIAL       
+========================================
+Fecha y Hora: Fri Dec  5 10:54:52 2025
+Metodo de Pago: Pago con Tarjeta de Credito (Procesado)
+----------------------------------------
+Producto: Pelota Beisbol (Cod: 1004)
+Cantidad: 45
+Precio Unitario: $50.00
+----------------------------------------
+TOTAL: $2250.00
+========================================

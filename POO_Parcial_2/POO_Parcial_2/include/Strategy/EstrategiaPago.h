@@ -10,7 +10,7 @@
  * implementar el método 'pagar'. Actúa como la interfaz para el Patrón Strategy.
  */
 class
-  EstrategiaPago {
+EstrategiaPago {
 public:
   /**
    * @brief Implementa la lógica de procesamiento de un pago específico.

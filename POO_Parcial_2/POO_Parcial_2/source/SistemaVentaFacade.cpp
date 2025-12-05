@@ -14,7 +14,7 @@ SistemaVentaFacade::SistemaVentaFacade() {
 
   // B. Inicializar el subsistema que REQUIERE la dependencia (GestorInventario)
   //    Ahora GestorInventario recibe el GestorRegistro que requiere.
-  gestorInventario = std::make_shared<GestorInventario>(gestorRegistro); // <--- ¡AQUÍ ESTÁ LA CLAVE!
+  gestorInventario = std::make_shared<GestorInventario>(gestorRegistro);
 
   // 2. Configuración del Observer (Lógica movida desde main.cpp)
   int umbralStockBajo = 5;
