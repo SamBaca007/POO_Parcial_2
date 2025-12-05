@@ -1,62 +1,27 @@
-#include "Prerequisites.h"                    // Inclusiones estándar.
-#include "GestorInventario.h"                 // La clase central de lógica de negocio.
-#include "ObserverPattern/AlertaStockBajo.h"  // Observador concreto.
-#include "UserInterface/UserInterface.h"      // Interfaz de usuario.
-#include "Register/GestorRegistro.h"          // Gestión del historial de transacciones.
+#include "Facade/SistemaVentaFacade.h"
 
-/**
- * @brief Función principal (main) del programa.
- * Responsable de la inicialización de todos los componentes, la carga de datos
- * y la configuración del patrón Observer antes de iniciar la interfaz de usuario.
- */
 int
 main() {
-  // -----------------------------------------------------------------
-  // 1. Inicialización y Composición del Sistema
-  // -----------------------------------------------------------------
-
-  // @brief Inicializa el Gestor de Registro (almacena ventas y compras).
-  auto gestorRegistro = std::make_shared<GestorRegistro>();
-
-  // @brief Inicializa el Gestor de Inventario. Se le inyecta el GestorRegistro
-  //        (patrón Composition) para que pueda registrar transacciones.
-  auto gestorInventario = std::make_shared<GestorInventario>(gestorRegistro);
-
-  // @brief Intenta cargar los datos iniciales del inventario desde el archivo JSON.
-  if (!gestorInventario->cargarProductosDesdeJson("InventarioTienda.json")) {
-    // Si falla la carga (ej. archivo no existe), el programa termina.
-    return 1;
-  }
+  // El Patrón Facade encapsula toda la inicialización,
+  // la composición de Gestores, la configuración del Observer,
+  // y la carga inicial del JSON.
 
   // -----------------------------------------------------------------
-  // 2. Configuración del Patrón Observer
+  // 1. Inicialización y Composición del Sistema (Simplificada)
   // -----------------------------------------------------------------
-
-  int umbralStockBajo = 5; // @brief Define el límite mínimo de stock para disparar alertas.
-
-  // @brief Crea el Observador concreto (el que mostrará las alertas en consola).
-  auto observadorAlerta = std::make_shared<AlertaStockBajo>(umbralStockBajo);
-
-  // @brief El Inventario (Sujeto) adjunta al Observador para ser notificado de cambios.
-  gestorInventario->adjuntar(observadorAlerta);
+  SistemaVentaFacade sistema; // <--- Crea y configura TODO el subsistema.
 
   // -----------------------------------------------------------------
-  // 3. Inicio del Ciclo de Vida del Programa
+  // 2. Inicio del Ciclo de Vida del Programa
   // -----------------------------------------------------------------
-
-  // @brief Inicializa la Interfaz de Usuario, inyectando ambos gestores (dependencias).
-  UserInterface interfaz(gestorInventario, gestorRegistro);
-
-  // @brief Inicia el ciclo principal del menú y la interacción con el usuario.
-  interfaz.iniciar();
+  sistema.iniciarSistema(); // <--- Inicia la interfaz de usuario.
 
   // -----------------------------------------------------------------
-  // 4. Cierre y Persistencia de Datos
+  // 3. Cierre y Persistencia de Datos
   // -----------------------------------------------------------------
-
-  // Aquí irá la función de GUARDAR JSON (guardarProductosAJson).
-  // Esta función debe ser llamada antes de que el programa termine para 
-  // persistir cualquier cambio realizado en el inventario.
+  // El Facade es el responsable de guardar los datos al finalizar.
+  // Aunque no la hemos implementado, aquí iría la lógica de guardado:
+  // sistema.guardarPersistencia(); 
 
   return 0;
 }

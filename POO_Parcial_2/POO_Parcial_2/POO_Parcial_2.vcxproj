@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Facade\SistemaVentaFacade.h" />
     <ClInclude Include="include\FactoryMethod\ProductoFactory.h" />
     <ClInclude Include="include\Gasolinera\Combustible.h" />
     <ClInclude Include="include\Gasolinera\GestorGasolinera.h" />
@@ -188,6 +189,7 @@
     <ClCompile Include="source\GestorRegistro.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\Producto.cpp" />
+    <ClCompile Include="source\SistemaVentaFacade.cpp" />
     <ClCompile Include="source\UserInterface.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

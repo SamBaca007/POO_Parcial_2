@@ -34,6 +34,9 @@
     <Filter Include="Archivos de encabezado\Gasolinera">
       <UniqueIdentifier>{c7949516-014e-4494-a374-962b0159cdb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Facade">
+      <UniqueIdentifier>{5cb7e229-2e6e-42f7-9c45-992f46a6019b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Prerequisites.h">
@@ -90,6 +93,9 @@
     <ClInclude Include="include\Gasolinera\GestorGasolinera.h">
       <Filter>Archivos de encabezado\Gasolinera</Filter>
     </ClInclude>
+    <ClInclude Include="include\Facade\SistemaVentaFacade.h">
+      <Filter>Archivos de encabezado\Facade</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -114,6 +120,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="source\GestorGasolinera.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="source\SistemaVentaFacade.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

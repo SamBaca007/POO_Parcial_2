@@ -4,7 +4,6 @@
 #include "ObserverPattern/Sujeto.h"     // Interfaz base para el patrón Observer.
 #include "Register/GestorRegistro.h"    // Clase para el registro de transacciones.
 #include "Strategy/EstrategiaPago.h"
-#include <memory>
 #include "IO/GeneradorTicket.h"
 
 /**
